@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
 // route에서 save하기 전에 함수 실행
 userSchema.pre("save", function (next) {
   // userSchema의 모든 정보 = this 안에 듦
-  const user = this;
+  var user = this;
 
   // 변경될때만 암호화
   if (user.isModified("password")) {
@@ -69,9 +69,9 @@ userSchema.methods.comparePassword = function (plainPassword, callback) {
 
 // 토큰 메소드 만들기
 userSchema.methods.generateToken = function (callback) {
-  const user = this;
+  var user = this;
   // jsonwebtoken을 이용해 토큰 생성, toHexString() : 16진수 변환
-  const token = jwt.sign(user._id.toHexString(), "secretToken");
+  var token = jwt.sign(user._id.toHexString(), "secretToken");
 
   user.token = token;
   user.save(function (err, user) {
@@ -80,14 +80,13 @@ userSchema.methods.generateToken = function (callback) {
   });
 };
 
-// 메소드 만들기
-userSchema.methods.findByToken = function (token, callback) {
-  const user = this;
+userSchema.statics.findByToken = function (token, callback) {
+  var user = this;
   // 토큰 복호화
   jwt.verify(token, "secretToken", function (err, decoded) {
     /* decoded = userId를 이용해서 user를 찾은 후
      클라이언트에서 가져온 token = db token 인지 확인 */
-    user.findOne({ _id: decoded, token: token }, function (err, user) {
+    user.findOne({ '_id': decoded, 'token': token }, function (err, user) {
       if (err) return callback(err);
       callback(null, user);
     });
