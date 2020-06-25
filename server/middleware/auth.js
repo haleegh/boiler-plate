@@ -2,7 +2,7 @@ const { User } = require("../models/User");
 
 // 인증 처리
 let auth = (req, res, next) => {
-  // 클라이언트에서 토큰을 가져옴
+  // 클라이언트-쿠키에서 토큰을 가져옴
   let token = req.cookies.user_auth;
 
   // 토큰찾기 메소드 생성

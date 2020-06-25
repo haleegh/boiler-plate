@@ -29,6 +29,10 @@ mongoose
 // Routes
 app.get("/", (req, res) => res.send("Hello World!"));
 
+app.get('/api/hello', (req, res) => {
+  res.send('안녕하세요')
+})
+
 app.post("/api/user/register", (req, res) => {
   const user = new User(req.body);
   // save하기전 password 암호화 -> User.js
